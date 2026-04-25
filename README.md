@@ -8,13 +8,17 @@ This is a model for queued work. It attemps to demonstrate a fair but efficient 
 
 ## running the model
 
-> pip install -r requirements
-> python queues.py
+```
+pip install -r requirements
+python queues.py
+```
 
 Or, using Docker:
 
-> make build
-> make run
+```
+make build
+make run
+```
 
 This will run a Plotly Dash server that can be accessed at [http://127.0.0.1:8050](http://127.0.0.1:8050).
 
