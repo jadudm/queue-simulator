@@ -24,6 +24,7 @@ app.layout = [
         min=1,
         max=20_000_000,
         step=1,
+        debounce=True
     ),
     dcc.Input(
         id="input_workers",
@@ -33,13 +34,14 @@ app.layout = [
         min=1,
         max=128,
         step=1,
+        debounce=True
     ),
     dcc.Graph(id="graph-content"),
     dcc.Interval(
         id="ticker",
         # interval is milliseconds between ticks
         # In reality, this might be closer to 2ms/row.
-        interval=25,
+        interval=50,
         n_intervals=0,
     ),
 ]
