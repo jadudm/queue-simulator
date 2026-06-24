@@ -166,4 +166,5 @@ This model has two desirable properties:
 2. When no other small jobs are present, large jobs are worked as rapidly as possible.
 3. When more than one job is present, they still leave room for additional small jobs to land and be worked without being starved.
 
+# food for thought
 
