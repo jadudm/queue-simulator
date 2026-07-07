@@ -1,21 +1,28 @@
 import simpy
 import math
 import random
+import sys
 
 
 class SteppingEnvironment(simpy.Environment):
+    # Creating a stepping environment lets me count
+    # the number of time steps in the simulation, making it
+    # possible to compare the amount of time different models
+    # require to execute.
     def __init__(self, initial_time=0):
         super().__init__(initial_time)
+        self.total_steps = 0
+
+    def reset(self):
         self.total_steps = 0
 
     def step(self):
         super().step()
         self.total_steps += 1
 
-# I'd like to know when a job is first worked, and when it finishes.
-
 
 class Job:
+    # Elch.
     JID = 0
 
     def __init__(self, benes, benes_per_wu):
@@ -25,9 +32,11 @@ class Job:
         self.start = -1
         self.worked = 0
         self.end = -1
+
     # When a job is worked, we increment the
     # units worked.
-
+    # This abstraction allows me to track how long a job takes, which
+    # will be dependent on the model being used.
     def work(self, timestep):
         if self.start < 0:
             self.start = timestep
@@ -37,6 +46,7 @@ class Job:
 
 
 class WorkUnit:
+    # Also elch.
     WID = 0
 
     def __init__(self, job, queue_index):
@@ -46,12 +56,21 @@ class WorkUnit:
         self.queue_index = queue_index
 
 # A Manager has a set of Queues that it can send WorkUnits to.
+# If I want to change the structure of the system as a whole,
+# the Manager is likely going to need to change.
+
+# This may be an abuse of the SimPy framework... I was moving
+# kinda fast.
 
 
 class Manager:
     def __init__(self, env, num_queues, noisy=False):
         self.env = env
         self.next = 0
+        # I'm simulating an environment with multiple queues.
+        # This lets me set them up as simpy Store objects, which
+        # have the machinery inside to manage the contents and
+        # play nice with the simulation as a whole.
         self.queues = [simpy.Store(env, math.inf) for _ in range(num_queues)]
         self.noisy = noisy
 
@@ -126,19 +145,57 @@ def simulation(num_queues, num_workers, jobs, noisy=False):
 
     env.run()
 
-    print(f"Steps[{env.total_steps}] Time[{env.now}]")
+    if noisy:
+        print()
+    print(f"Simulation time[{env.now}]")
     for job in jobs:
         print(f"Job[{job.jid}] Duration[{job.end - job.start + len(jobs)}]")
     print()
 
+# A job defines the number of benes and the number of benes per work unit.
+# Since we're really just interested in WUs (work units), we can pre-define
+# a few jobs.
+
+
+def WU10(): return Job(100, 10)
+def WU100(): return Job(1000, 10)
+def WU1000(): return Job(10_000, 10)
+def WU10000(): return Job(100_000, 10)
+def WU100000(): return Job(1_000_000, 10)
+
 
 if __name__ in "__main__":
-    simulation(1, 1, [Job(100, 10)], noisy=True)
-    simulation(1, 2, [Job(100, 10)], noisy=True)
-    simulation(1, 5, [Job(100, 10)])
-    simulation(2, 1, [Job(100, 10), Job(100, 10)], noisy=True)
-    # simulation(1, 1, [Job(100, 10), Job(100, 10)])
-    # simulation(2, 1, [Job(100, 10), Job(100, 10)])
-    # simulation(2, 2, [Job(100, 10), Job(100, 10)])
-    # simulation(3, 1, [Job(100, 10), Job(100, 10), Job(100, 10)])
-    simulation(1, 3, [Job(1000000, 10), Job(10000, 10), Job(100000, 10)])
+    simulation_number = sys.argv[1]
+    noisy = sys.argv[2]
+
+    simulation_number = int(simulation_number)
+
+    if "t" in noisy.lower():
+        noisy = True
+    else:
+        noisy = False
+
+    # Q1
+    # The first simulation is one queue and one worker.
+    # How many time steps do you expect it to take in order
+    # to complete all 10 units of work, assuming a worker does
+    # one unit of work per clock step?
+    match simulation_number:
+        case 1:
+            simulation(1, 1, [WU10()], noisy=noisy)
+        case 2:
+            simulation(1, 2, [WU10()], noisy=noisy)
+        case 3:
+            simulation(1, 5, [WU10()], noisy=noisy)
+        case 4:
+            simulation(2, 1, [WU10(), WU10()], noisy=noisy)
+        case 5:
+            simulation(1, 1, [WU10(), WU10()], noisy=noisy)
+        case 6:
+            simulation(2, 1, [WU10(), WU10()], noisy=noisy)
+        case 7:
+            simulation(2, 2, [WU10(), WU10()], noisy=noisy)
+        case 8:
+            simulation(3, 1, [WU10(), WU10(), WU10()], noisy=noisy)
+        case 9:
+            simulation(1, 3, [WU100000(), WU1000(), WU10000()], noisy=noisy)
