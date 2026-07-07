@@ -10,7 +10,7 @@ This repository neither pretends nor aspires to be a work of art. It does the th
 
 # exploring job processing systems
 
-Designing, developing, testing, and maintaining job processing systems is expensive in time. Getting the *model* wrong means that the implementation, no matter how good, will always be fundamentally unfit for purpose. A job processing systems that is unfit for purpose leads to disruptions of user experience, either as soft failures (where a system slows down or performs poorly) or hard failures (where the system crashes or loses data). All of these are considered incidents, and carry expensive diagnostic and recovery processes with them. 
+Designing, developing, testing, and maintaining job processing systems is expensive in time. Getting the *model* wrong means that the implementation, no matter how good, will always be fundamentally unfit for purpose. A job processing system that is unfit for purpose leads to disruptions of user experience, either as soft failures (where a system slows down or performs poorly) or hard failures (where the system crashes or loses data). All of these are considered incidents, and carry expensive diagnostic and recovery processes with them. 
 
 ("Expensive" means "an entire team is typically stopped and focused on resolving an incident, sometimes for days, while a root cause is ascertained, and the full impact to users is described.")
 
