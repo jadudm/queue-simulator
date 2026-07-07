@@ -29,7 +29,7 @@ Should we use one queue or two? One worker or two? These questions can be evalua
 
 ## modeling systems
 
-It is possible to model job processing systems in a small number of lines of code. This makes it possible to experiment with *models* as opposed to *implementations*. This allows us to propose a model, and then ask questions about fundamental properties of job processing systems, like **fairness**, **throughput**, **utilization rate**, **average wait time in queue**, **average wait time in system**, 
+We can model job processing systems in a small number of lines of code. This makes it possible to experiment with *models* as opposed to *implementations*. This allows us to propose a model, and then ask questions about fundamental properties of job processing systems, like **fairness**, **throughput**, **utilization rate**, **average wait time in queue**, **average wait time in system**, 
 
 1. How does the system perform if small jobs come in infrequently?
 2. How does the system perform if small and large jobs come in regularly?
