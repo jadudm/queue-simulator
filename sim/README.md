@@ -24,7 +24,7 @@ Should we use one queue or two? One worker or two? These questions can be evalua
 
 1. **One worker, one queue**: If we have four units of work on the queue, it will take four units of time to complete all the jobs.
 2. **Two workers, one queue**: With four units of work, the entire queue will empty in two units of time: more workers means the work gets done faster.
-3. **One worker, two queues**: This does not change the amount of time it takes to complete all of the work, but it does impact the perception of how long it takes to complete individual jobs. If we put one job on each queue, the owners of those jobs will think it took *more* time to complete the work; this configuration appears *slower* than other configurations.
+3. **One worker, two queues**: This does not change the amount of time it takes to complete all of the work, but it does impact the perception of how long it takes to complete individual jobs. If we put one job on each queue, the owners of those jobs will think it took *more* time to complete the work; this configuration *appears* slower (on a job-by-job basis) to *some* submitters/users when compared to other configurations.
 4. **Two workers, two queues**: All four units of work complete in two units of time, *and* the owners of the work believe they were prioritized, because each job completed in two units of time.
 
 ## modeling systems
